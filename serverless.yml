@@ -1,0 +1,32 @@
+service: sg-code-challenge
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  index:
+    handler: dist/bundle.userHandler.index
+    events:
+      - httpApi:
+          path: /bundle.userHandler
+          method: get
+  create:
+    handler: dist/bundle.userHandler.create
+    events:
+      - httpApi:
+          path: /bundle.userHandler
+          method: post
+  update:
+    handler: dist/bundle.userHandler.update
+    events:
+      - httpApi:
+          path: /bundle.userHandler
+          method: put
+  delete:
+    handler: dist/bundle.userHandler.delete
+    events:
+      - httpApi:
+          path: /user
+          method: delete
