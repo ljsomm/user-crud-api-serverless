@@ -10,19 +10,19 @@ functions:
     handler: dist/bundle.userHandler.index
     events:
       - httpApi:
-          path: /bundle.userHandler
+          path: /user
           method: get
   create:
     handler: dist/bundle.userHandler.create
     events:
       - httpApi:
-          path: /bundle.userHandler
+          path: /user
           method: post
   update:
     handler: dist/bundle.userHandler.update
     events:
       - httpApi:
-          path: /bundle.userHandler
+          path: /user
           method: put
   delete:
     handler: dist/bundle.userHandler.delete
@@ -30,3 +30,16 @@ functions:
       - httpApi:
           path: /user
           method: delete
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: tb_user
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH

@@ -1,33 +1,17 @@
 import { APIGatewayEvent } from "aws-lambda"
-import UserPort from "../../ports/in/user.in"
+import { userUseCases } from "../../domain/usecases/user"
 
-export const userHandler: UserPort = {
+export const userHandler = {
   index: async (event: APIGatewayEvent, _) => {
-    return {
-      id: "mock",
-      name: "mock",
-      email: "luasjuan@gmail.com"
-    }
+    return userUseCases.showUserOrUsers();
   },
   create: async (event: APIGatewayEvent, _) => {
-    return {
-      id: "mock",
-      name: "mock",
-      email: "luasjuan@gmail.com"
-    }
+    return userUseCases.createUser(JSON.parse(event.body));
   },
   update: async (event: APIGatewayEvent, _) => {
-    return {
-      id: "mock",
-      name: "mock",
-      email: "luasjuan@gmail.com"
-    }
+    return userUseCases.updateUser(JSON.parse(event.body));
   },
   delete: async (event: APIGatewayEvent, _) => {
-    return {
-      id: "mock",
-      name: "mock",
-      email: "luasjuan@gmail.com"
-    }
+    return {};
   }
 }
