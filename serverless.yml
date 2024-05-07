@@ -14,12 +14,14 @@ functions:
           method: get
   create:
     handler: dist/bundle.userHandler.create
+    role: writeRightsRole 
     events:
       - httpApi:
           path: /user
           method: post
   update:
     handler: dist/bundle.userHandler.update
+    role: writeRightsRole 
     events:
       - httpApi:
           path: /user
@@ -49,7 +51,7 @@ resources:
     writeRightsRole:
       Type: AWS::IAM::Role
       Properties:
-        Path: /sg/challenge
+        Path: /sg/challenge/
         RoleName: WriteDynamoRole
         AssumeRolePolicyDocument:
           Version: '2012-10-17'
