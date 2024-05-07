@@ -63,7 +63,7 @@ resources:
                   - lambda.amazonaws.com
               Action: sts:AssumeRole
         Policies:
-          - PolicyName: myPolicyName
+          - PolicyName: WritePolicyName
             PolicyDocument:
               Version: '2012-10-17'
               Statement:
@@ -75,7 +75,7 @@ resources:
       Type: AWS::IAM::Role
       Properties:
         Path: /sg/challenge/
-        RoleName: WriteDynamoRole
+        RoleName: DeleteDynamoRole
         AssumeRolePolicyDocument:
           Version: '2012-10-17'
           Statement:
@@ -85,7 +85,7 @@ resources:
                   - lambda.amazonaws.com
               Action: sts:AssumeRole
         Policies:
-          - PolicyName: myPolicyName
+          - PolicyName: DeletePolicyName
             PolicyDocument:
               Version: '2012-10-17'
               Statement:
