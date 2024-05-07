@@ -25,7 +25,6 @@ jobs:
           name: my-artifact
           path: |
             ./dist
-            ./node_modules
             ./serverless.yml
   cd:
     runs-on: ubuntu-latest
