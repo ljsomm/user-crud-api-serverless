@@ -53,7 +53,7 @@ resources:
       Type: AWS::IAM::Role
       Properties:
         Path: /sg/challenge/
-        RoleName: WriteDynamoRole
+        RoleName: ReadDynamoRole
         AssumeRolePolicyDocument:
           Version: '2012-10-17'
           Statement:
@@ -63,7 +63,7 @@ resources:
                   - lambda.amazonaws.com
               Action: sts:AssumeRole
         Policies:
-          - PolicyName: WritePolicyName
+          - PolicyName: ReadPolicyName
             PolicyDocument:
               Version: '2012-10-17'
               Statement:
