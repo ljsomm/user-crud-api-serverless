@@ -69,4 +69,4 @@ resources:
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
-                  Resource: "*/db_user" 
+                  Resource: "arn:aws:dynamodb:*:*:table/tb_user" 
