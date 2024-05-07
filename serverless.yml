@@ -28,6 +28,7 @@ functions:
           method: put
   delete:
     handler: dist/bundle.userHandler.delete
+    role: deleteRightsRole 
     events:
       - httpApi:
           path: /user
@@ -69,4 +70,26 @@ resources:
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
+                  Resource: "arn:aws:dynamodb:*:*:table/tb_user" 
+    deleteRightsRole:
+      Type: AWS::IAM::Role
+      Properties:
+        Path: /sg/challenge/
+        RoleName: WriteDynamoRole
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: myPolicyName
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - dynamodb:DeleteItem
                   Resource: "arn:aws:dynamodb:*:*:table/tb_user" 
