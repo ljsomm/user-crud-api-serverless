@@ -49,6 +49,29 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    readRightsRole:
+      Type: AWS::IAM::Role
+      Properties:
+        Path: /sg/challenge/
+        RoleName: WriteDynamoRole
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: WritePolicyName
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - dynamodb:Scan
+                    - dynamodb:GetItem
+                  Resource: "arn:aws:dynamodb:*:*:table/tb_user" 
     writeRightsRole:
       Type: AWS::IAM::Role
       Properties:
