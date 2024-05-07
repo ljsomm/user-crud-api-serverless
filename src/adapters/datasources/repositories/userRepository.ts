@@ -1,4 +1,4 @@
-import { PutItemCommand } from "@aws-sdk/client-dynamodb";
+import { DeleteItemCommand, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { IUser } from "../../../domain/interfaces/user";
 import UserOuputPort from "../../../ports/out/user.out";
 import dynamoDBClient from "../clients/dynamodb";
@@ -43,7 +43,22 @@ export const userRepository: UserOuputPort = {
     }));
     return user;
   },
-  deleteUser: async (userId: number) => {
-    return null;
+  deleteUser: async (userId: string) => {
+    const response = await dynamoDBClient.send(new DeleteItemCommand({
+      Key: {
+        id: {
+          S: userId
+        }
+      },
+      TableName: "tb_user",
+      ReturnValues: "ALL_OLD",
+    }));
+    const dto = Object.keys(response.Attributes).reduce((accumulator, item) => {
+      return {
+        ...accumulator,
+        [item]: Object.values(response.Attributes[item])[0]
+      }
+    }, {});
+    return dto as IUser;
   },
 }

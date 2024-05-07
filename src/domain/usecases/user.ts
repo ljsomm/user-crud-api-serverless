@@ -16,11 +16,7 @@ export const userUseCases: UserInputPort = {
   updateUser: async (user: IUser) => {
     return userRepository.updateUser(user);
   },
-  deleteUser: async (userId: number) => {
-    return {
-      id: "mock",
-      name: "mock",
-      email: "luasjuan@gmail.com"
-    }
+  deleteUser: async (userId: string) => {
+    return userRepository.deleteUser(userId);
   }
 }

@@ -1,5 +1,6 @@
 import { APIGatewayEvent } from "aws-lambda"
 import { userUseCases } from "../../domain/usecases/user"
+import "../../config/environment";
 
 export const userHandler = {
   index: async (event: APIGatewayEvent, _) => {
@@ -12,6 +13,6 @@ export const userHandler = {
     return userUseCases.updateUser(JSON.parse(event.body));
   },
   delete: async (event: APIGatewayEvent, _) => {
-    return {};
+    return userUseCases.deleteUser(event.queryStringParameters?.id);
   }
 }
