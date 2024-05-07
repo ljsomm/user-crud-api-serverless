@@ -4,7 +4,10 @@ import "../../config/environment";
 
 export const userHandler = {
   index: async (event: APIGatewayEvent, _) => {
-    return userUseCases.showUserOrUsers();
+    if(!!event.queryStringParameters?.id) {
+      return userUseCases.showUser(event.queryStringParameters?.id);
+    }
+    return userUseCases.showAllUsers();
   },
   create: async (event: APIGatewayEvent, _) => {
     return userUseCases.createUser(JSON.parse(event.body));

@@ -1,12 +1,32 @@
-import { DeleteItemCommand, PutItemCommand } from "@aws-sdk/client-dynamodb";
+import { DeleteItemCommand, PutItemCommand, QueryCommand, ScanCommand } from "@aws-sdk/client-dynamodb";
 import { IUser } from "../../../domain/interfaces/user";
 import UserOuputPort from "../../../ports/out/user.out";
 import dynamoDBClient from "../clients/dynamodb";
 import crypto from "crypto";
+import userMapper from "../../mappers/user.mapper";
 
 export const userRepository: UserOuputPort = {
-  retrieveUserOrUsers: async () => {
-    return null;
+  findAll: async () => {
+    const response = await dynamoDBClient.send(new ScanCommand({
+      TableName: "tb_user"
+    }));
+    return response.Items.map(userMapper.fromDynamoRecord);
+  },
+  findOne: async (userId: string) => {
+    const response = await dynamoDBClient.send(new QueryCommand({
+      TableName: "tb_user",
+      ExpressionAttributeValues: {
+        ":id": {
+          "S": userId
+        }
+      },
+      KeyConditionExpression: "id = :id", 
+    }));
+    if(!response.Items?.length) {
+      throw new Error(`No items found with id ${userId}`);
+    }
+    const userResult = response.Items[0];
+    return userMapper.fromDynamoRecord(userResult);
   },
   saveUser: async (user: IUser) => {
     user.id = crypto.randomUUID()
@@ -53,12 +73,6 @@ export const userRepository: UserOuputPort = {
       TableName: "tb_user",
       ReturnValues: "ALL_OLD",
     }));
-    const dto = Object.keys(response.Attributes).reduce((accumulator, item) => {
-      return {
-        ...accumulator,
-        [item]: Object.values(response.Attributes[item])[0]
-      }
-    }, {});
-    return dto as IUser;
+    return userMapper.fromDynamoRecord(response.Attributes);
   },
 }

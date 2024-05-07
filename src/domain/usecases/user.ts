@@ -3,12 +3,11 @@ import { IUser } from "../interfaces/user"
 import UserInputPort from "../../ports/in/user.in"
 
 export const userUseCases: UserInputPort = {
-  showUserOrUsers: async () => {
-    return {
-      id: "mock",
-      name: "mock",
-      email: "luasjuan@gmail.com"
-    }
+  showUser: async (userId: string) => {
+    return userRepository.findOne(userId);
+  },
+  showAllUsers: async () => {
+    return userRepository.findAll();
   },
   createUser: async (user: IUser) => {
     return userRepository.saveUser(user);
