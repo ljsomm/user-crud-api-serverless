@@ -9,17 +9,20 @@ custom:
   env: ${opt:stage, 'prod'}
  
 functions:
-  environment:
-    ENV: ${self:custom.env}
-    TABLE_NAME: tb_user_${self:custom.env}
+  
   index:
+    name: get_user_${self:custom.env}
+    environment:
+        ENV: ${self:custom.env}
+        TABLE_NAME: tb_user_${self:custom.env}
     handler: dist/bundle.userHandler.index
     role: readRightsRole
-    events:
+    events: 
       - httpApi:
           path: /user
           method: get
   create:
+    name: create_user_${self:custom.env}
     environment:
       ENV: ${self:custom.env}
       TABLE_NAME: tb_user_${self:custom.env}
@@ -30,6 +33,7 @@ functions:
           path: /user
           method: post
   update:
+    name: update_user_${self:custom.env}
     environment:
       ENV: ${self:custom.env}
       TABLE_NAME: tb_user_${self:custom.env}
@@ -40,6 +44,7 @@ functions:
           path: /user
           method: put
   delete:
+    name: delete_user_${self:custom.env}
     environment:
       ENV: ${self:custom.env}
       TABLE_NAME: tb_user_${self:custom.env}
