@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: git fetch
       - name: create pull request
-        run: gh pr create -B $BRANCH_NAME -H develop --title 'Merge $BRANCH_NAME into develop' --body 'Automatically created by Github action'
+        run: gh pr create -B $BRANCH_NAME -H develop --title 'Merge $BRANCH_NAME into develop' --body 'Automatically created by Github action' --force
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
           BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
