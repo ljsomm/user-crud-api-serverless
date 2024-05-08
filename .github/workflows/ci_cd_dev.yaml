@@ -21,6 +21,11 @@ jobs:
         run: npm run test
       - name: Build
         run: npm run build
+      - name: create pull request
+        run: gh pr create -B master -H $BRANCH_NAME --title 'Merge develop into master' --body 'Automatically created by Github action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -47,8 +52,3 @@ jobs:
         run: npm install -g serverless
       - name: Deploy Dev
         run: sls deploy --stage develop
-      - name: create pull request
-        run: gh pr create -B master -H $BRANCH_NAME --title 'Merge develop into master' --body 'Automatically created by Github action'
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
-          BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
