@@ -20,3 +20,4 @@ Create a serverless user's CRUD. Hexagonal architecture was chosen to organize t
 - Docker
 - LocaStack
 - AWS
+
