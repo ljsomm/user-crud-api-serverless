@@ -9,6 +9,7 @@ jobs:
   create_pull_request:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6.0.5
         with:
