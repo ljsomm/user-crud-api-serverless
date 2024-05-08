@@ -8,13 +8,14 @@ import userMapper from "../../mappers/user.mapper";
 export const userRepository: UserOuputPort = {
   findAll: async () => {
     const response = await dynamoDBClient.send(new ScanCommand({
-      TableName: "tb_user"
+      TableName: process.env["TABLE_NAME"] || "tb_user_fallback"
     }));
     return response.Items.map(userMapper.fromDynamoRecord);
   },
   findOne: async (userId: string) => {
+
     const response = await dynamoDBClient.send(new GetItemCommand({
-      TableName: "tb_user",
+      TableName: process.env["TABLE_NAME"] || "tb_user_fallback",
       Key: {
         id: {
           "S": userId
@@ -25,6 +26,7 @@ export const userRepository: UserOuputPort = {
     return userMapper.fromDynamoRecord(response.Item);
   },
   saveUser: async (user: IUser) => {
+
     user.id = crypto.randomUUID()
     await dynamoDBClient.send(new PutItemCommand({
       Item: {
@@ -38,7 +40,7 @@ export const userRepository: UserOuputPort = {
           S: user.email
         }
       },
-      TableName: "tb_user"
+      TableName: process.env["TABLE_NAME"] || "tb_user_fallback"
     }));
     return user;
   },
@@ -55,7 +57,7 @@ export const userRepository: UserOuputPort = {
           S: user.email
         }
       },
-      TableName: "tb_user"
+      TableName: process.env["TABLE_NAME"] || "tb_user_fallback"
     }));
     return user;
   },
@@ -66,7 +68,7 @@ export const userRepository: UserOuputPort = {
           S: userId
         }
       },
-      TableName: "tb_user",
+      TableName: process.env["TABLE_NAME"] || "tb_user_fallback",
       ReturnValues: "ALL_OLD",
     }));
     return userMapper.fromDynamoRecord(response.Attributes);
