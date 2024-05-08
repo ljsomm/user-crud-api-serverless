@@ -2,7 +2,7 @@ on:
   pull_request:
     types: [closed]
     branches:
-      - 'master'
+      - 'develop'
 
 jobs:
   ci:
@@ -45,5 +45,14 @@ jobs:
       - run: ls -la
       - name: Install Serverless Framework
         run: npm install -g serverless
-      - name: Deploy
-        run: sls deploy
+      - name: Deploy Dev
+        run: sls deploy --stage develop
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6.0.5
+        with:
+          title: "develop -> master"
+          branch: master
+          commit-message: "Merge develop changes into master"
+          body: |
+            This is an automatically generated pull request to merge changes from a develop branch into the master branch.
+          token: ${{ secrets.GITHUB_TOKEN }}

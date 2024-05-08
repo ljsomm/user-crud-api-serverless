@@ -1,0 +1,20 @@
+name: Create Pull Request to Develop
+
+on:
+  push:
+    branches:
+      - 'feature/*'
+
+jobs:
+  create_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6.0.5
+        with:
+          title: "feature -> develop"
+          branch: develop
+          commit-message: "Merge feature changes into develop"
+          body: |
+            This is an automatically generated pull request to merge changes from a feature branch into the develop branch.
+          token: ${{ secrets.GITHUB_TOKEN }}
