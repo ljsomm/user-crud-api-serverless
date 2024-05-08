@@ -10,12 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6.0.5
-        with:
-          title: "feature -> develop"
-          branch: develop
-          commit-message: "Merge feature changes into develop"
-          body: |
-            This is an automatically generated pull request to merge changes from a feature branch into the develop branch.
-          token: ${{ secrets.ACTIONS_TOKEN }}
+      - name: create pull request
+        run: gh pr create -B $BRANCH_NAME -H develop --title 'Merge $BRANCH_NAME into develop' --body 'Automatically created by Github action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
