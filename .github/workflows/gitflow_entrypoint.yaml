@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: git branch
+      - run: git fetch
       - name: create pull request
         run: gh pr create -B $BRANCH_NAME -H develop --title 'Merge $BRANCH_NAME into develop' --body 'Automatically created by Github action'
         env:
