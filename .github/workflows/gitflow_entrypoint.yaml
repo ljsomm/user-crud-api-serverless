@@ -18,4 +18,4 @@ jobs:
           commit-message: "Merge feature changes into develop"
           body: |
             This is an automatically generated pull request to merge changes from a feature branch into the develop branch.
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ACTIONS_TOKEN }}
