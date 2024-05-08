@@ -47,12 +47,8 @@ jobs:
         run: npm install -g serverless
       - name: Deploy Dev
         run: sls deploy --stage develop
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6.0.5
-        with:
-          title: "develop -> master"
-          branch: master
-          commit-message: "Merge develop changes into master"
-          body: |
-            This is an automatically generated pull request to merge changes from a develop branch into the master branch.
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: create pull request
+        run: gh pr create -B master -H $BRANCH_NAME --title 'Merge develop into master' --body 'Automatically created by Github action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
