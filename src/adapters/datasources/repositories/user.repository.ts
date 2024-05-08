@@ -1,5 +1,5 @@
-import { DeleteItemCommand, GetItemCommand, PutItemCommand, QueryCommand, ScanCommand } from "@aws-sdk/client-dynamodb";
-import { IUser } from "../../../domain/interfaces/user";
+import { DeleteItemCommand, GetItemCommand, PutItemCommand, ScanCommand } from "@aws-sdk/client-dynamodb";
+import { IUser } from "../../../domain/interfaces/user.interface";
 import UserOuputPort from "../../../ports/out/user.out";
 import dynamoDBClient from "../clients/dynamodb";
 import crypto from "crypto";

@@ -1,5 +1,5 @@
 import { AttributeValue } from "@aws-sdk/client-dynamodb";
-import { IUser } from "../../domain/interfaces/user";
+import { IUser } from "../../domain/interfaces/user.interface";
 
 const userMapper = {
   fromDynamoRecord: (dynamoRecord: Record<string, AttributeValue>) => {

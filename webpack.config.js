@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    entry: ["./src/adapters/handlers/user.ts"],
+    entry: ["./src/adapters/handlers/user.handler.ts"],
     mode: "development",
     target: "node",
     module: {

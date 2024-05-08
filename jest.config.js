@@ -3,5 +3,6 @@ module.exports = {
     transformIgnorePatterns: [
         '<rootDir>/node_modules/',
     ],
-    collectCoverageFrom: ["./src/**/*.ts"]
+    collectCoverageFrom: ["./src/**/*.ts"],
+    coverageReporters: ["json", "json-summary", "text"],
 }

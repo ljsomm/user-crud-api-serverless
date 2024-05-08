@@ -1,5 +1,5 @@
-import { userRepository } from "../../adapters/datasources/repositories/userRepository"
-import { IUser } from "../interfaces/user"
+import { userRepository } from "../../adapters/datasources/repositories/user.repository"
+import { IUser } from "../interfaces/user.interface"
 import UserInputPort from "../../ports/in/user.in"
 
 export const userUseCases: UserInputPort = {

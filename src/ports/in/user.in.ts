@@ -1,4 +1,4 @@
-import { IUser } from "../../domain/interfaces/user";
+import { IUser } from "../../domain/interfaces/user.interface";
 
 export default interface UserInputPort {
    showAllUsers: () => Promise<IUser[]>;

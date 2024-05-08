@@ -1,5 +1,5 @@
 import { APIGatewayEvent } from "aws-lambda"
-import { userUseCases } from "../../domain/usecases/user"
+import { userUseCases } from "../../domain/usecases/user.usecase"
 import "../../config/environment";
 
 export const userHandler = {
