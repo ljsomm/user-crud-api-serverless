@@ -5,15 +5,27 @@ provider:
   name: aws
   runtime: nodejs18.x
 
+custom:
+  env: ${opt:stage, 'prod'}
+ 
 functions:
+  
   index:
+    name: get_user_${self:custom.env}
+    environment:
+        ENV: ${self:custom.env}
+        TABLE_NAME: tb_user_${self:custom.env}
     handler: dist/bundle.userHandler.index
     role: readRightsRole
-    events:
+    events: 
       - httpApi:
           path: /user
           method: get
   create:
+    name: create_user_${self:custom.env}
+    environment:
+      ENV: ${self:custom.env}
+      TABLE_NAME: tb_user_${self:custom.env}
     handler: dist/bundle.userHandler.create
     role: writeRightsRole 
     events:
@@ -21,6 +33,10 @@ functions:
           path: /user
           method: post
   update:
+    name: update_user_${self:custom.env}
+    environment:
+      ENV: ${self:custom.env}
+      TABLE_NAME: tb_user_${self:custom.env}
     handler: dist/bundle.userHandler.update
     role: writeRightsRole 
     events:
@@ -28,6 +44,10 @@ functions:
           path: /user
           method: put
   delete:
+    name: delete_user_${self:custom.env}
+    environment:
+      ENV: ${self:custom.env}
+      TABLE_NAME: tb_user_${self:custom.env}
     handler: dist/bundle.userHandler.delete
     role: deleteRightsRole 
     events:
@@ -40,7 +60,7 @@ resources:
     UsersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: tb_user
+        TableName: tb_user_${self:custom.env}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
@@ -54,7 +74,7 @@ resources:
       Type: AWS::IAM::Role
       Properties:
         Path: /sg/challenge/
-        RoleName: ReadDynamoRole
+        RoleName: ReadDynamoRole_${self:custom.env}
         AssumeRolePolicyDocument:
           Version: '2012-10-17'
           Statement:
@@ -64,7 +84,7 @@ resources:
                   - lambda.amazonaws.com
               Action: sts:AssumeRole
         Policies:
-          - PolicyName: ReadPolicyName
+          - PolicyName: ReadPolicyName_${self:custom.env}
             PolicyDocument:
               Version: '2012-10-17'
               Statement:
@@ -72,12 +92,12 @@ resources:
                   Action:
                     - dynamodb:Scan
                     - dynamodb:GetItem
-                  Resource: "arn:aws:dynamodb:*:*:table/tb_user" 
+                  Resource: "arn:aws:dynamodb:*:*:table/tb_user_${self:custom.env}" 
     writeRightsRole:
       Type: AWS::IAM::Role
       Properties:
         Path: /sg/challenge/
-        RoleName: WriteDynamoRole
+        RoleName: WriteDynamoRole_${self:custom.env}
         AssumeRolePolicyDocument:
           Version: '2012-10-17'
           Statement:
@@ -87,19 +107,19 @@ resources:
                   - lambda.amazonaws.com
               Action: sts:AssumeRole
         Policies:
-          - PolicyName: WritePolicyName
+          - PolicyName: WritePolicyName_${self:custom.env}
             PolicyDocument:
               Version: '2012-10-17'
               Statement:
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
-                  Resource: "arn:aws:dynamodb:*:*:table/tb_user" 
+                  Resource: "arn:aws:dynamodb:*:*:table/tb_user_${self:custom.env}" 
     deleteRightsRole:
       Type: AWS::IAM::Role
       Properties:
         Path: /sg/challenge/
-        RoleName: DeleteDynamoRole
+        RoleName: DeleteDynamoRole_${self:custom.env}
         AssumeRolePolicyDocument:
           Version: '2012-10-17'
           Statement:
@@ -109,11 +129,11 @@ resources:
                   - lambda.amazonaws.com
               Action: sts:AssumeRole
         Policies:
-          - PolicyName: DeletePolicyName
+          - PolicyName: DeletePolicyName_${self:custom.env}
             PolicyDocument:
               Version: '2012-10-17'
               Statement:
                 - Effect: Allow
                   Action:
                     - dynamodb:DeleteItem
-                  Resource: "arn:aws:dynamodb:*:*:table/tb_user" 
+                  Resource: "arn:aws:dynamodb:*:*:table/tb_user_${self:custom.env}" 
