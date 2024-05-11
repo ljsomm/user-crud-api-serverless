@@ -1,0 +1,30 @@
+name: Destroy infrastructure
+
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  fechada:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verifying issue
+        id: issue
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+            const label = "destroy";
+            if (issue.labels.find(l => l.name === label)) {
+              console.log('A issue #' + issue.number + ' was closed with label ' + label);
+              return 'destroy';
+            } else {
+              console.log('A issue #' + issue.number + ' was closed without ' + label);
+              return 'other_issue';
+            }
+      - name: Destroy
+        if: steps.issue.outputs == 'destroy'
+        run: |
+          sls remove -s develop
+          sls remove
