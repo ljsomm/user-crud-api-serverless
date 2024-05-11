@@ -11,6 +11,8 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
+      GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+
     steps:
       - uses: actions/checkout@v4
       - name: Verifying issue
@@ -22,14 +24,12 @@ jobs:
             const issue = context.payload.issue;
             const label = "destroy";
             if (issue.labels.find(l => l.name === label)) {
-              console.log('A issue #' + issue.number + ' was closed with label ' + label);
-              return 'destroy';
+              console.log('::set-output name=expected_label_present::true');
             } else {
-              console.log('A issue #' + issue.number + ' was closed without ' + label);
-              return 'other_issue';
+              console.log('::set-output name=expected_label_present::false');
             }
       - name: Destroy
-        if: steps.issue.outputs == 'destroy'
+        if: steps.issue.expected_label_present == 'true'
         run: |
           sls remove -s develop
           sls remove
