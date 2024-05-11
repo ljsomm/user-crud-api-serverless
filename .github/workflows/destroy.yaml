@@ -7,7 +7,12 @@ on:
 jobs:
   closed:
     runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
     steps:
+      - uses: actions/checkout@v4
       - name: Verifying issue
         id: issue
         uses: actions/github-script@v4
