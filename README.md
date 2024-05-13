@@ -16,6 +16,11 @@ Create a serverless user's CRUD. Hexagonal architecture was chosen to organize t
 It was used Git Workflows and actions to provide speed on the Continuous Integration and Continuous Delivery/Deployment (you can check them in the "actions" sections if you want). Furtheremore, it was used a kind of gitflow approach to provide stage segregation-driven environment (dev and production), but only following 3 kind of branches: features, develop and master.
 
 
+### FinOps case
+
+In a hypotetical circunstance, If it was necessary to destroy all infrastructure pieces following a governance case, the only required thing to do would be to create an issue with a tag named "destroy", so that the code owner could close it and then a specific workflow would be executed, destroying the offensors. 
+
+
 ## Tech Stack 🚀
 
 - NodeJS
